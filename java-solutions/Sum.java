@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Sum {
     public static void main(String[] args) {
         int result = 0;
@@ -11,6 +9,9 @@ public class Sum {
 
     public static int parse(String arg) {
         int sum = 0;
+        // TODO :NOTE: починить -2147483648 (сначала переделать SumDoubleSpace)
+        // TODO :NOTE: Сделать аналогично SumDoubleSpace
+
         StringBuilder number = new StringBuilder();
         boolean minus = false;
 
