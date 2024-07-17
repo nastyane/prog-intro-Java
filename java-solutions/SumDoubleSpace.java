@@ -1,8 +1,6 @@
 public class SumDoubleSpace {
     public static void main(String[] args) {
         double result = 0;
-        // "       3     2.6    -3.934"
-        // args = new String[]{"1"};
         for (String arg : args) {
             result += parse(arg);
         }
@@ -22,17 +20,15 @@ public class SumDoubleSpace {
                     startIndex = i;
                 }
             } else {
-                if (startIndex != -1){
-                    String number = arg.substring(startIndex, i);
-                    sum += Double.parseDouble(number);
-                    startIndex= -1;
+                if (startIndex != -1) {
+                    sum += Double.parseDouble(arg.substring(startIndex, i));
+                    startIndex = -1;
                 }
-
             }
         }
+
         if (startIndex != -1) {
-            String numberS = arg.substring(startIndex);
-            sum += Double.parseDouble(numberS);
+            sum += Double.parseDouble(arg.substring(startIndex));
         }
 
         return sum;
