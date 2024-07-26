@@ -1,79 +1,78 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 
 public class WordStatInput {
     public static void main(String[] args) throws Exception {
-        ArrayList<String> words = new ArrayList<>();
-        BufferedWriter out = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8")
-        );
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
+        String filenameRead = args[0];
+        String filenameWrite = args[1];
         try {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(new FileInputStream(args[0]), "UTF-8")
-            );
-            int[] count = new int[2];
-            int first = 0;
-            int second = 0;
+            reader = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(filenameRead), "UTF-8"));
+            LinkedHashMap<String, Integer> wordCount = new LinkedHashMap<>();
+            StringBuilder word = new StringBuilder();
+            int read;
             try {
-                while (true) {
-                    String str = in.readLine();
-                    if (str == null) {
-                        break;
-                    }
-                    for (int i = 0; i < str.length(); i++) {
-                        if (cheakSymbol(str.charAt(i))) {
-                            if (i == 0 || !cheakSymbol(str.charAt(i - 1))) {
-                                first = i;
-                            }
-                            if (i == str.length() - 1 || !cheakSymbol(str.charAt(i + 1))) {
-                                second = ++i;
-                                words.add(str.substring(first, second).toLowerCase());
-                                first = 0;
-                            }
+                while ((read = reader.read()) != -1) {
+                    char ch = (char) read;
+                    if (!checkSymbol(ch)) {
+                        if (!word.isEmpty()) {
+                            String wordStr = word.toString().toLowerCase();
+                            wordCount.put(wordStr, wordCount.getOrDefault(wordStr, 0) + 1);
+                            word.setLength(0);
                         }
-                    }
-                }
-                count = Arrays.copyOf(count, words.size());
-                int temp = 0;
-                for (int i = 0; i < words.size() - 1; i++) {
-                    for (int j = i + 1; j < words.size(); j++) {
-                        if ((words.get(i).equals(words.get(j)))) {
-                            count[i]++;
-                            temp = j-1;
-                            words.remove(j);
-                            j = temp;
-                        }
-                    }
-                }
-            } finally {
-                System.out.println("Сlosed");
-                in.close();
-            }
-
-            try {
-                for (int j = 0; j < words.size(); j++) {
-                    if (words.get(j) == null) {
-                        continue;
                     } else {
-                        out.write(words.get(j) + " " + (++count[j]));
-                        out.newLine();
+                        if (checkSymbol(ch)) {
+                            word.append(ch);
+                        }
                     }
                 }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            } finally {
-                System.out.println("File close");
-                out.close();
+                if (!word.isEmpty()) {
+                    String wordStr = word.toString().toLowerCase();
+                    wordCount.put(wordStr, wordCount.getOrDefault(wordStr, 0) + 1);
+                }
+                try {
+                    writer = new BufferedWriter(new OutputStreamWriter(
+                            new FileOutputStream(filenameWrite), "UTF-8"));
+                    for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
+                        String wordText = entry.getKey();
+                        int count = entry.getValue();
+
+                        writer.write(wordText + " " + count);
+                        writer.newLine();
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println("File write not found: " + e.getMessage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    if (writer != null) {
+                        writer.close();
+                    }
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input" + e.getMessage());
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.out.println("Not found" + e.getMessage());
+            System.out.println("File read not found: " + e.getMessage());
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
         }
     }
 
-    public static boolean cheakSymbol(char symbol) {
-        return Character.isLetter(symbol) || Character.getType(symbol) == Character.DASH_PUNCTUATION || symbol == '\'';
+    private static boolean checkSymbol(char word) {
+        return Character.isLetter(word) ||
+                Character.getType(word) == Character.DASH_PUNCTUATION ||
+                word == '\'';
     }
-
 }
-
