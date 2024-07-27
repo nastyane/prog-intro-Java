@@ -24,16 +24,13 @@ public class WordStatInput {
                             String wordStr = word.toString().toLowerCase();
                             wordCount.put(wordStr, wordCount.getOrDefault(wordStr, 0) + 1);
                             word.setLength(0);
+
                         }
                     } else {
                         if (checkSymbol(ch)) {
                             word.append(ch);
                         }
                     }
-                }
-                if (!word.isEmpty()) {
-                    String wordStr = word.toString().toLowerCase();
-                    wordCount.put(wordStr, wordCount.getOrDefault(wordStr, 0) + 1);
                 }
                 try {
                     writer = new BufferedWriter(new OutputStreamWriter(
