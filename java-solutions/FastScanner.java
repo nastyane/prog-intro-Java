@@ -4,7 +4,6 @@ public class FastScanner {
     private final Reader reader;
     private int lastChar = -1;
 
-
     public FastScanner(Reader reader) {
         this.reader = reader;
     }
@@ -17,8 +16,18 @@ public class FastScanner {
         this(new StringReader(s));
     }
 
+    private int readAndSkipR() throws IOException {
+        while (true) {
+            int read = reader.read();
+            if (read == '\r') {
+                continue;
+            }
+            return read;
+        }
+    }
+
     public boolean hasNextLine() throws IOException {
-        int symbol = reader.read();
+        int symbol = readAndSkipR();
         if (symbol != -1) {
             lastChar = symbol;
             return true;
@@ -28,19 +37,21 @@ public class FastScanner {
     }
 
     public String nextLine() throws IOException {
+        if (lastChar == '\n') {
+            lastChar = -1;
+            return "";
+        }
+
         StringBuilder str = new StringBuilder();
-        if (lastChar != -1 && lastChar != '\n') {
+        if (lastChar != -1) {
             char toChar = (char) lastChar;
             str.append(toChar);
         }
-        if (lastChar == '\n') {
-            lastChar = -1;
-            return str.toString();
-        }
+
         while (true) {
-            int symbolInt = reader.read();
+            int symbolInt = readAndSkipR();
             char symbolChar = (char) symbolInt;
-            if (symbolChar != '\n' && symbolChar != '\r' && symbolInt != -1) {
+            if (symbolChar != '\n' && symbolInt != -1) {
                 str.append(symbolChar);
             } else {
                 lastChar = -1;
@@ -58,7 +69,7 @@ public class FastScanner {
             s = String.valueOf(toChar);
         }
         while (true) {
-            char symbol = (char) reader.read();
+            char symbol = (char) readAndSkipR();
             if (!Character.isWhitespace(symbol)) {
                 lastChar = symbol;
                 s = s + symbol;
@@ -75,7 +86,7 @@ public class FastScanner {
             return true;
         }*/
         while (true) {
-            int symbol = reader.read();
+            int symbol = readAndSkipR();
             if (symbol == -1) {
                 return false;
             } else if (Character.isWhitespace(symbol) || symbol == '+') {
@@ -96,15 +107,13 @@ public class FastScanner {
             lastChar = -1;
         }
         while (true) {
-            int number = reader.read();
+            int number = readAndSkipR();
             if (!Character.isWhitespace(number) && number != -1) {
                 str.append((char) number);
             } else {
-
                 break;
             }
         }
-
         return Integer.parseInt(str.toString());
     }
 }

@@ -1,8 +1,8 @@
-import java.util.Scanner;
+import java.io.IOException;
 
 public class ReverseMinC {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        FastScanner in = new FastScanner(System.in);
 
         int[] data = new int[1_000_000];
         int[] sizes = new int[1_000_000];
@@ -12,7 +12,7 @@ public class ReverseMinC {
         int countColum = 0;
 
         while (in.hasNextLine()) {
-            Scanner lineScanner = new Scanner(in.nextLine());
+            FastScanner lineScanner = new FastScanner(in.nextLine());
             int count = 0;
 
             while (lineScanner.hasNextInt()) {
