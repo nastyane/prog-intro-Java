@@ -1,15 +1,11 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 public class WordStatCount {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String filenameRead = args[0];
 
         LinkedHashMap<String, Integer> wordCount = new LinkedHashMap<>();
