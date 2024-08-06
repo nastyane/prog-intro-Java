@@ -14,8 +14,8 @@ public class WordStatCount {
 
         LinkedHashMap<String, Integer> wordCount = new LinkedHashMap<>();
         try (FastScanner scanner = new FastScanner(new BufferedReader(new FileReader(filenameRead, StandardCharsets.UTF_8)))) {
-            while (scanner.hasNextWord2()) {
-                String wordStr = scanner.nextWord2().toLowerCase();
+            while (scanner.hasNextWord()) {
+                String wordStr = scanner.nextWord().toLowerCase();
                 wordCount.put(wordStr, wordCount.getOrDefault(wordStr, 0) + 1);
             }
         } catch (FileNotFoundException e) {
@@ -40,11 +40,5 @@ public class WordStatCount {
         } catch (IOException e) {
             System.out.println("Something wrong with output file: " + e.getMessage());
         }
-    }
-
-    private static boolean checkSymbol(char word) {
-        return Character.isLetter(word) ||
-                Character.getType(word) == Character.DASH_PUNCTUATION ||
-                word == '\'';
     }
 }

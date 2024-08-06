@@ -1,74 +1,42 @@
 import java.io.*;
-import java.util.InputMismatchException;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class WordStatInput {
-    public static void main(String[] args) throws Exception {
-        BufferedReader reader = null;
-        BufferedWriter writer = null;
+    public static void main(String[] args) throws IOException {
         String filenameRead = args[0];
-        String filenameWrite = args[1];
-        try {
-            reader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(filenameRead), "UTF-8"));
-            LinkedHashMap<String, Integer> wordCount = new LinkedHashMap<>();
-            StringBuilder word = new StringBuilder();
-            int read;
-            try {
-                while ((read = reader.read()) != -1) {
-                    char ch = (char) read;
-                    if (!checkSymbol(ch)) {
-                        if (!word.isEmpty()) {
-                            String wordStr = word.toString().toLowerCase();
-                            wordCount.put(wordStr, wordCount.getOrDefault(wordStr, 0) + 1);
-                            word.setLength(0);
-                        }
-                    } else {
-                        if (checkSymbol(ch)) {
-                            word.append(ch);
-                        }
-                    }
-                }
-                try {
-                    writer = new BufferedWriter(new OutputStreamWriter(
-                            new FileOutputStream(filenameWrite), "UTF-8"));
-                    for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
-                        String wordText = entry.getKey();
-                        int count = entry.getValue();
 
-                        writer.write(wordText + " " + count);
-                        writer.newLine();
-                    }
-                } catch (FileNotFoundException e) {
-                    System.out.println("File write not found: " + e.getMessage());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                } finally {
-                    if (writer != null) {
-                        writer.close();
-                    }
-                }
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        LinkedHashMap<String, Integer> wordCount = new LinkedHashMap<>();
+        try (FastScanner scanner = new FastScanner(new BufferedReader(new FileReader(filenameRead, StandardCharsets.UTF_8)))) {
+            while (scanner.hasNextWord()) {
+                String wordStr = scanner.nextWord().toLowerCase();
+                wordCount.put(wordStr, wordCount.getOrDefault(wordStr, 0) + 1);
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input" + e.getMessage());
-            e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.out.println("File read not found: " + e.getMessage());
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
+            System.out.println("Input file not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Something wrong with input file: " + e.getMessage());
         }
-    }
 
-    private static boolean checkSymbol(char word) {
-        return Character.isLetter(word) ||
-                Character.getType(word) == Character.DASH_PUNCTUATION ||
-                word == '\'';
+        String filenameWrite = args[1];
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filenameWrite, StandardCharsets.UTF_8))) {
+            for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
+                String wordText = entry.getKey();
+                int count = entry.getValue();
+
+                writer.write(wordText + " " + count);
+                writer.newLine();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Output file not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Something wrong with output file: " + e.getMessage());
+        }
     }
 }

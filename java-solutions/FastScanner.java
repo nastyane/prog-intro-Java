@@ -91,7 +91,6 @@ public class FastScanner implements AutoCloseable {
                 lastChar = symbol;
                 return true;
             } else if (!Character.isDigit(symbol)) {
-                System.err.println("ZOPA");
                 return false;
             }
         }
@@ -114,7 +113,7 @@ public class FastScanner implements AutoCloseable {
         return Integer.parseInt(str.toString());
     }
 
-    public boolean hasNextWord2() throws IOException {
+    public boolean hasNextWord() throws IOException {
         while (true) {
             int symbol = readAndSkipR();
             if (symbol == -1) {
@@ -128,7 +127,7 @@ public class FastScanner implements AutoCloseable {
         }
     }
 
-    public String nextWord2() throws IOException {
+    public String nextWord() throws IOException {
         StringBuilder str = new StringBuilder();
         if (lastChar != -1) {
             str.append((char) lastChar);
@@ -149,41 +148,6 @@ public class FastScanner implements AutoCloseable {
         return str.toString();
     }
 
-    public boolean hasNextWord() throws IOException {
-        while (true) {
-            int symbol = readAndSkipR();
-            char symbolChar = (char) symbol;
-            if (symbol == -1) {
-                return false;
-            } else if (Character.isWhitespace(symbol)) {
-                continue;
-            } else if (!Character.isWhitespace(symbol) && Character.isLetter(symbol) || checkSymbol(symbolChar)) {
-                lastChar = symbol;
-                return true;
-            } else if (!Character.isLetter(symbol)) {
-                return false;
-            }
-        }
-    }
-
-    public String nextWord() throws IOException {
-        StringBuilder str = new StringBuilder();
-        if (lastChar != -1) {
-            str.append((char) lastChar);
-            lastChar = -1;
-        }
-        while (true) {
-            int word = readAndSkipR();
-            char symbolChar = (char) word;
-            if (!Character.isWhitespace(word) && checkSymbol(symbolChar) && word != -1) {
-                str.append((char) word);
-            } else {
-                break;
-            }
-        }
-        return str.toString();
-    }
-
     private static boolean checkSymbol(char word) {
         return Character.isLetter(word) ||
                 Character.getType(word) == Character.DASH_PUNCTUATION ||
@@ -194,15 +158,4 @@ public class FastScanner implements AutoCloseable {
     public void close() throws IOException {
         reader.close();
     }
-    /*    public String nextWord() throws IOException {
-            StringBuilder str = new StringBuilder();
-            int symbol = readAndSkipR();
-            while (true){
-                char symbolChar = (char) symbol;
-                if (checkSymbol(symbolChar)) {
-                    str.append(symbolChar);
-                }
-            }
-
-        }*/
 }
