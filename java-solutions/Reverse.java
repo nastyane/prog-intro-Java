@@ -1,11 +1,10 @@
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Reverse {
     public static void main(String[] args)  {
         FastScanner in = new FastScanner(System.in);
-        int[] data = new int[1_000_000];
-        int[] sizes = new int[1_000_000];
+        int[] data = new int[10_000_000];
+        int[] sizes = new int[10_000_000];
         int sizesLength = 0;
         int dataLength = 0;
         try {

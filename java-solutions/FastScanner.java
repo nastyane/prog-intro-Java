@@ -158,4 +158,55 @@ public class FastScanner implements AutoCloseable {
     public void close() throws IOException {
         reader.close();
     }
+
+    public boolean hasNextAbc() throws IOException {
+        while (true) {
+            int symbol = readAndSkipR();
+            if (symbol == -1) {
+                return false;
+            }
+            if (checkSymbolAbc((char) symbol)) {
+                lastChar = symbol;
+                return true;
+            }
+        }
+    }
+
+    public int nextAbc() throws IOException {
+        StringBuilder str = new StringBuilder();
+        if (lastChar != -1) {
+            str.append((char) lastChar);
+            lastChar = -1;
+        }
+        while (true) {
+            int number = readAndSkipR();
+            if (number == -1) {
+                return toNumber(str.toString());
+            }
+
+            if (checkSymbolAbc((char) number)) {
+                str.append((char) number);
+            } else {
+                break;
+            }
+        }
+        return toNumber(str.toString());
+    }
+
+    public static boolean checkSymbolAbc(char symbol) {
+        return Character.isLetter(symbol) || symbol == '+' || symbol == '-';
+    }
+
+    public static int toNumber(String letter) {
+        StringBuilder res = new StringBuilder();
+        for (char c : letter.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                res.append(c);
+            } else {
+                c = (char) (c - 49);
+                res.append(c);
+            }
+        }
+        return Integer.parseInt(res.toString());
+    }
 }

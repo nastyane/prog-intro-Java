@@ -2,26 +2,24 @@ import java.io.IOException;
 
 public class ReverseMinCAbc {
     public static void main(String[] args) {
-        FastScanner in = new FastScanner(System.in);
 
-        int[] data = new int[1_000_000];
-        int[] sizes = new int[1_000_000];
+
+        int[] data = new int[10_000_000];
+        int[] sizes = new int[10_000_000];
 
         int sizesLength = 0;
         int dataLength = 0;
         int countColum = 0;
 
-        try {
+        try (FastScanner in = new FastScanner(System.in)) {
             while (in.hasNextLine()) {
                 FastScanner lineScanner = new FastScanner(in.nextLine());
                 int count = 0;
-
-                while (lineScanner.hasNextInt()) {
-                    data[dataLength++] = lineScanner.nextInt();
+                while (lineScanner.hasNextAbc()) {
+                    data[dataLength++] = lineScanner.nextAbc();
                     count++;
                     countColum = Math.max(countColum, count);
                 }
-
                 sizes[sizesLength] = count;
                 sizesLength++;
             }
@@ -42,17 +40,19 @@ public class ReverseMinCAbc {
         } catch (IOException e) {
             System.out.print("Something wrong with input: " + e.getMessage());
         }
-
     }
 
     public static String toLetter(int number) {
-        int num = 0;
-        String toStr;
-        for (char count : String.valueOf(number).toCharArray()) {
-            num *= 10;
-            num += (char) (count + 48);
+        String s = Integer.toString(number);
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                res.append(c);
+            } else {
+                c = (char) (c + 49);
+                res.append(c);
+            }
         }
-        toStr = Character.toString(num);
-        return toStr;
+        return res.toString();
     }
 }
