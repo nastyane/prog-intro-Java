@@ -46,6 +46,8 @@ public class FastScanner implements AutoCloseable {
     }
 
     private String next(Predicate<Character> predicate) throws IOException {
+        // TODO :NOTE: StringBuilder унести в поле класса и переиспользовать его
+        // TODO :NOTE: str.setLength(0); сбрасывает внутренние указатели стринг билдера (переиспользование памяти)
         StringBuilder str = new StringBuilder();
         if (lastChar != -1) {
             str.append((char) lastChar);
@@ -66,13 +68,7 @@ public class FastScanner implements AutoCloseable {
     }
 
     public boolean hasNextLine() throws IOException {
-        int symbol = readAndSkipR();
-        if (symbol != -1) {
-            lastChar = symbol;
-            return true;
-        } else {
-            return false;
-        }
+        return hasNext(ch -> true);
     }
 
     public String nextLine() throws IOException {
@@ -81,25 +77,7 @@ public class FastScanner implements AutoCloseable {
             return "";
         }
 
-        // TODO :NOTE: StringBuilder унести в поле класса и переиспользовать его
-        // TODO :NOTE: str.setLength(0); сбрасывает внутренние указатели стринг билдера (переиспольтзование памяти)
-        StringBuilder str = new StringBuilder();
-        if (lastChar != -1) {
-            char toChar = (char) lastChar;
-            str.append(toChar);
-        }
-
-        while (true) {
-            int symbolInt = readAndSkipR();
-            char symbolChar = (char) symbolInt;
-            if (symbolChar != '\n' && symbolInt != -1) {
-                str.append(symbolChar);
-            } else {
-                lastChar = -1;
-                break;
-            }
-        }
-        return str.toString();
+        return next(ch -> ch != '\n');
     }
 
     public String next() throws IOException {
@@ -121,7 +99,7 @@ public class FastScanner implements AutoCloseable {
         return s;
     }
 
-    // TODO :NOTE: Обобщить все оставшиеся метода через предикаты
+    // TODO :NOTE: Обобщить все оставшиеся метода через hasNext(Predicate) и next(Predicate), если синтаксис лямбда функций пока не понятин, сделать как в abc, завести обычную функцию и её передать
     public boolean hasNextInt() throws IOException {
         while (true) {
             int symbol = readAndSkipR();
@@ -205,13 +183,15 @@ public class FastScanner implements AutoCloseable {
         return toNumber(next(FastScanner::checkSymbolAbc));
     }
 
-    public static boolean checkSymbolAbc(char symbol) {
+    private static boolean checkSymbolAbc(char symbol) {
+        // TODO :NOTE: Заменить isLetter на 'a' <= c <= 'какой-то там символ мне лень' т.к. известен изначальный алфавит и это будет работать быстрее
         return Character.isLetter(symbol) || symbol == '+' || symbol == '-';
     }
 
     public static int toNumber(String letter) {
         StringBuilder res = new StringBuilder();
         for (char c : letter.toCharArray()) {
+            // TODO :NOTE: Заменить isLetter на 'a' <= c <= 'какой-то там символ мне лень'
             if (!Character.isLetter(c)) {
                 res.append(c);
             } else {
