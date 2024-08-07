@@ -2,6 +2,7 @@ import java.io.IOException;
 
 public class Reverse {
     public static void main(String[] args)  {
+        // TODO :NOTE: try с ресурсами
         FastScanner in = new FastScanner(System.in);
         int[] data = new int[10_000_000];
         int[] sizes = new int[10_000_000];
@@ -9,6 +10,7 @@ public class Reverse {
         int dataLength = 0;
         try {
             while (in.hasNextLine()) {
+                // TODO :NOTE: try с ресурсами
                 FastScanner lineScanner = new FastScanner(in.nextLine());
                 int count = 0;
                 while (lineScanner.hasNextInt()) {

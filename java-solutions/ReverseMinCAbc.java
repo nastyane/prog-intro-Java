@@ -13,6 +13,7 @@ public class ReverseMinCAbc {
 
         try (FastScanner in = new FastScanner(System.in)) {
             while (in.hasNextLine()) {
+                // TODO :NOTE: try с ресурсами
                 FastScanner lineScanner = new FastScanner(in.nextLine());
                 int count = 0;
                 while (lineScanner.hasNextAbc()) {
@@ -42,10 +43,13 @@ public class ReverseMinCAbc {
         }
     }
 
+    // TODO :NOTE: name: toAbc
+    // TODO :NOTE: должен быть private
     public static String toLetter(int number) {
         String s = Integer.toString(number);
         StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {
+            // TODO :NOTE: заменить на условие '0' <= с <= '9'
             if (!Character.isDigit(c)) {
                 res.append(c);
             } else {

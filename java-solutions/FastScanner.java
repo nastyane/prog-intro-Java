@@ -1,4 +1,10 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.function.Predicate;
 
 public class FastScanner implements AutoCloseable {
     private final Reader reader;
@@ -9,6 +15,7 @@ public class FastScanner implements AutoCloseable {
     }
 
     public FastScanner(InputStream in) {
+        // TODO :NOTE: не надо оборачивать в BufferedReader
         this(new BufferedReader(new InputStreamReader(in)));
     }
 
@@ -24,6 +31,38 @@ public class FastScanner implements AutoCloseable {
             }
             return read;
         }
+    }
+
+    private boolean hasNext(Predicate<Character> predicate) throws IOException {
+        while (true) {
+            int symbol = readAndSkipR();
+            if (symbol == -1) {
+                return false;
+            } else if (predicate.test((char) symbol)) {
+                lastChar = symbol;
+                return true;
+            }
+        }
+    }
+
+    private String next(Predicate<Character> predicate) throws IOException {
+        StringBuilder str = new StringBuilder();
+        if (lastChar != -1) {
+            str.append((char) lastChar);
+            lastChar = -1;
+        }
+        while (true) {
+            int number = readAndSkipR();
+            if (number == -1) {
+                break;
+            }
+            if (predicate.test((char) number)) {
+                str.append((char) number);
+            } else {
+                break;
+            }
+        }
+        return str.toString();
     }
 
     public boolean hasNextLine() throws IOException {
@@ -42,6 +81,8 @@ public class FastScanner implements AutoCloseable {
             return "";
         }
 
+        // TODO :NOTE: StringBuilder унести в поле класса и переиспользовать его
+        // TODO :NOTE: str.setLength(0); сбрасывает внутренние указатели стринг билдера (переиспольтзование памяти)
         StringBuilder str = new StringBuilder();
         if (lastChar != -1) {
             char toChar = (char) lastChar;
@@ -80,18 +121,15 @@ public class FastScanner implements AutoCloseable {
         return s;
     }
 
+    // TODO :NOTE: Обобщить все оставшиеся метода через предикаты
     public boolean hasNextInt() throws IOException {
         while (true) {
             int symbol = readAndSkipR();
             if (symbol == -1) {
                 return false;
-            } else if (Character.isWhitespace(symbol) || symbol == '+') {
-                continue;
-            } else if (!Character.isWhitespace(symbol) && Character.isDigit(symbol) || symbol == '-') {
+            } else if (Character.isDigit(symbol) || symbol == '-' || symbol == '+') {
                 lastChar = symbol;
                 return true;
-            } else if (!Character.isDigit(symbol)) {
-                return false;
             }
         }
     }
@@ -150,8 +188,8 @@ public class FastScanner implements AutoCloseable {
 
     private static boolean checkSymbol(char word) {
         return Character.isLetter(word) ||
-                Character.getType(word) == Character.DASH_PUNCTUATION ||
-                word == '\'';
+               Character.getType(word) == Character.DASH_PUNCTUATION ||
+               word == '\'';
     }
 
     @Override
@@ -160,37 +198,11 @@ public class FastScanner implements AutoCloseable {
     }
 
     public boolean hasNextAbc() throws IOException {
-        while (true) {
-            int symbol = readAndSkipR();
-            if (symbol == -1) {
-                return false;
-            }
-            if (checkSymbolAbc((char) symbol)) {
-                lastChar = symbol;
-                return true;
-            }
-        }
+        return hasNext(FastScanner::checkSymbolAbc);
     }
 
     public int nextAbc() throws IOException {
-        StringBuilder str = new StringBuilder();
-        if (lastChar != -1) {
-            str.append((char) lastChar);
-            lastChar = -1;
-        }
-        while (true) {
-            int number = readAndSkipR();
-            if (number == -1) {
-                return toNumber(str.toString());
-            }
-
-            if (checkSymbolAbc((char) number)) {
-                str.append((char) number);
-            } else {
-                break;
-            }
-        }
-        return toNumber(str.toString());
+        return toNumber(next(FastScanner::checkSymbolAbc));
     }
 
     public static boolean checkSymbolAbc(char symbol) {

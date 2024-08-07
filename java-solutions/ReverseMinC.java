@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class ReverseMinC {
     public static void main(String[] args) {
+        // TODO :NOTE: try с ресурсами
         FastScanner in = new FastScanner(System.in);
 
         int[] data = new int[1_000_000];
@@ -14,6 +15,7 @@ public class ReverseMinC {
 
         try {
             while (in.hasNextLine()) {
+                // TODO :NOTE: try с ресурсами
                 FastScanner lineScanner = new FastScanner(in.nextLine());
                 int count = 0;
 
