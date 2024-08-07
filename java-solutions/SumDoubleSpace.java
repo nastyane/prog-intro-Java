@@ -9,9 +9,9 @@ public class SumDoubleSpace {
 
     public static double parse(String arg) {
         double sum = 0;
-        // TODO :NOTE: удалить iml файлы
+        // :NOTE: удалить iml файлы
         // done
-        // TODO :NOTE: избавиться от StringBuilder, использовать substring
+        // :NOTE: избавиться от StringBuilder, использовать substring
         int startIndex = -1;
         for (int i = 0; i < arg.length(); i++) {
             char toChar = arg.charAt(i);

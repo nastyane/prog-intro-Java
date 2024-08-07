@@ -13,16 +13,17 @@ public class ReverseMinCAbc {
 
         try (FastScanner in = new FastScanner(System.in)) {
             while (in.hasNextLine()) {
-                // TODO :NOTE: try с ресурсами
-                FastScanner lineScanner = new FastScanner(in.nextLine());
-                int count = 0;
-                while (lineScanner.hasNextAbc()) {
-                    data[dataLength++] = lineScanner.nextAbc();
-                    count++;
-                    countColum = Math.max(countColum, count);
+                // :NOTE: try с ресурсами
+                try (FastScanner lineScanner = new FastScanner(in.nextLine())) {
+                    int count = 0;
+                    while (lineScanner.hasNextAbc()) {
+                        data[dataLength++] = lineScanner.nextAbc();
+                        count++;
+                        countColum = Math.max(countColum, count);
+                    }
+                    sizes[sizesLength] = count;
+                    sizesLength++;
                 }
-                sizes[sizesLength] = count;
-                sizesLength++;
             }
 
             int offset = 0;
@@ -32,7 +33,7 @@ public class ReverseMinCAbc {
                     if (min[col] == null || min[col] > data[offset]) {
                         min[col] = data[offset];
                     }
-                    String c = toLetter(min[col]);
+                    String c = toAbc(min[col]);
                     System.out.print(c + " ");
                     offset++;
                 }
@@ -43,9 +44,9 @@ public class ReverseMinCAbc {
         }
     }
 
-    // TODO :NOTE: name: toAbc
-    // TODO :NOTE: должен быть private
-    public static String toLetter(int number) {
+    //  :NOTE: name: toAbc
+    //  :NOTE: должен быть private
+    private static String toAbc(int number) {
         String s = Integer.toString(number);
         StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {

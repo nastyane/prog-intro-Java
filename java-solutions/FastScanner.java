@@ -1,9 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 import java.util.function.Predicate;
 
 public class FastScanner implements AutoCloseable {
@@ -15,8 +10,8 @@ public class FastScanner implements AutoCloseable {
     }
 
     public FastScanner(InputStream in) {
-        // TODO :NOTE: не надо оборачивать в BufferedReader
-        this(new BufferedReader(new InputStreamReader(in)));
+        // :NOTE: не надо оборачивать в BufferedReader
+        this(new InputStreamReader(in));
     }
 
     public FastScanner(String s) {

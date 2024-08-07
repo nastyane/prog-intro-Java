@@ -1,52 +1,53 @@
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ReverseMinC {
-    public static void main(String[] args) {
-        // TODO :NOTE: try с ресурсами
-        FastScanner in = new FastScanner(System.in);
+    public static void main(String[] args) throws IOException {
+        // :NOTE: try с ресурсами
+        try (FastScanner in = new FastScanner(System.in);) {
+            int[] data = new int[1_000_000];
+            int[] sizes = new int[1_000_000];
 
-        int[] data = new int[1_000_000];
-        int[] sizes = new int[1_000_000];
+            int sizesLength = 0;
+            int dataLength = 0;
+            int countColum = 0;
 
-        int sizesLength = 0;
-        int dataLength = 0;
-        int countColum = 0;
+            try {
+                while (in.hasNextLine()) {
+                    // :NOTE: try с ресурсами
+                    try (FastScanner lineScanner = new FastScanner(in.nextLine())) {
+                        int count = 0;
 
-        try {
-            while (in.hasNextLine()) {
-                // TODO :NOTE: try с ресурсами
-                FastScanner lineScanner = new FastScanner(in.nextLine());
-                int count = 0;
+                        while (lineScanner.hasNextInt()) {
+                            data[dataLength++] = lineScanner.nextInt();
+                            count++;
+                            countColum = Math.max(countColum, count);
+                        }
 
-                while (lineScanner.hasNextInt()) {
-                    data[dataLength++] = lineScanner.nextInt();
-                    count++;
-                    countColum = Math.max(countColum, count);
-                }
-
-                sizes[sizesLength] = count;
-                sizesLength++;
-            }
-
-            int offset = 0;
-            Integer[] min = new Integer[countColum];
-            for (int row = 0; row < sizesLength; row++) {
-                for (int col = 0; col < sizes[row]; col++) {
-                    if (min[col] == null || min[col] > data[offset]) {
-                        min[col] = data[offset];
+                        sizes[sizesLength] = count;
+                        sizesLength++;
                     }
-
-                    System.out.print(min[col] + " ");
-                    offset++;
                 }
-                System.out.println();
-            }
-        } catch (IOException e) {
-            System.out.print("Something wrong with input: " + e.getMessage());
-        }
 
+                int offset = 0;
+                Integer[] min = new Integer[countColum];
+                for (int row = 0; row < sizesLength; row++) {
+                    for (int col = 0; col < sizes[row]; col++) {
+                        if (min[col] == null || min[col] > data[offset]) {
+                            min[col] = data[offset];
+                        }
+
+                        System.out.print(min[col] + " ");
+                        offset++;
+                    }
+                    System.out.println();
+                }
+            } catch (IOException e) {
+                System.out.print("Something wrong with input: " + e.getMessage());
+            }
+
+        }
     }
+
 }
 
 /*
