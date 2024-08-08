@@ -44,14 +44,14 @@ public class ReverseMinCAbc {
         }
     }
 
-    //  :NOTE: name: toAbc
-    //  :NOTE: должен быть private
+    // :NOTE: name: toAbc
+    // :NOTE: должен быть private
     private static String toAbc(int number) {
         String s = Integer.toString(number);
         StringBuilder res = new StringBuilder();
         for (char c : s.toCharArray()) {
-            // TODO :NOTE: заменить на условие '0' <= с <= '9'
-            if (!Character.isDigit(c)) {
+            // :NOTE: заменить на условие '0' <= с <= '9'
+            if (!('0' <= c && c <= '9')) {
                 res.append(c);
             } else {
                 c = (char) (c + 49);
