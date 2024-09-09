@@ -19,7 +19,7 @@ public class WsppSortedPosition {
                 position++;
                 for (String key : wordCount.keySet()) {
                     List<Integer> newValues = new ArrayList<>();
-
+// проверка
                     for (Integer value : wordCount.get(key)) {
                         newValues.add(position - value);
                     }
