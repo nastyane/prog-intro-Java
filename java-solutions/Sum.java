@@ -9,8 +9,8 @@ public class Sum {
 
     public static int parse(String arg) {
         int sum = 0;
-        // TODO :NOTE: починить -2147483648 (сначала переделать SumDoubleSpace)
-        // TODO :NOTE: Сделать аналогично SumDoubleSpace
+        // :NOTE: починить -2147483648 (сначала переделать SumDoubleSpace)
+        // :NOTE: Сделать аналогично SumDoubleSpace
 
         StringBuilder number = new StringBuilder();
         boolean minus = false;

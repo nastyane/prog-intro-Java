@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 public class FastScanner implements AutoCloseable {
     private final Reader reader;
     private int lastChar = -1;
+    private StringBuilder builder = new StringBuilder();
 
     public FastScanner(Reader reader) {
         this.reader = reader;
@@ -48,6 +49,7 @@ public class FastScanner implements AutoCloseable {
             str.append((char) lastChar);
             lastChar = -1;
         }
+
         while (true) {
             int number = readAndSkipR();
             if (number == -1) {
@@ -161,8 +163,8 @@ public class FastScanner implements AutoCloseable {
 
     private static boolean checkSymbol(char word) {
         return Character.isLetter(word) ||
-               Character.getType(word) == Character.DASH_PUNCTUATION ||
-               word == '\'';
+                Character.getType(word) == Character.DASH_PUNCTUATION ||
+                word == '\'';
     }
 
     @Override
@@ -179,15 +181,15 @@ public class FastScanner implements AutoCloseable {
     }
 
     private static boolean checkSymbolAbc(char symbol) {
-        // TODO :NOTE: Заменить isLetter на 'a' <= c <= 'какой-то там символ мне лень' т.к. известен изначальный алфавит и это будет работать быстрее
-        return Character.isLetter(symbol) || symbol == '+' || symbol == '-';
+        // :NOTE: Заменить isLetter на 'a' <= c <= 'какой-то там символ мне лень' т.к. известен изначальный алфавит и это будет работать быстрее
+        return 'a' <= symbol && symbol <= 'z' || symbol == '+' || symbol == '-';
     }
 
     public static int toNumber(String letter) {
         StringBuilder res = new StringBuilder();
         for (char c : letter.toCharArray()) {
-            // TODO :NOTE: Заменить isLetter на 'a' <= c <= 'какой-то там символ мне лень'
-            if (!Character.isLetter(c)) {
+            // :NOTE: Заменить isLetter на 'a' <= c <= 'какой-то там символ мне лень'
+            if (!('a' <= c && c <= 'z')) {
                 res.append(c);
             } else {
                 c = (char) (c - 49);

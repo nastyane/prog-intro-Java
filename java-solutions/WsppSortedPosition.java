@@ -4,24 +4,28 @@ import java.util.*;
 
 public class WsppSortedPosition {
     public static void main(String[] args) {
-        String filenameRead = args[0];
-        LinkedHashMap<String, List<Integer>> wordCount = new LinkedHashMap<>();
-
+        String filenameRead = "input.txt";
+        LinkedHashMap<String, List<Pair>> wordCount = new LinkedHashMap<>();
+        int lineNumber = 1;
         try (FastScanner scanner = new FastScanner(new BufferedReader(new FileReader(filenameRead, StandardCharsets.UTF_8)))) {
-            int position = 1;
-            while (scanner.hasNextWord()) {
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] words = line.split("\\s+");
+                int position = 1;
                 String wordStr = scanner.nextWord().toLowerCase();
                 wordCount.putIfAbsent(wordStr, new ArrayList<>());
-                wordCount.get(wordStr).add(position);
+                wordCount.get(wordStr).add(new Pair(lineNumber, position));
                 position++;
-            }
-            for (String key : wordCount.keySet()) {
-                List<Integer> newValues = new ArrayList<>();
+                for (String key : wordCount.keySet()) {
+                    List<Integer> newValues = new ArrayList<>();
 
-                for (Integer value : wordCount.get(key)) {
-                    newValues.add(position - value);
+                    for (Integer value : wordCount.get(key)) {
+                        newValues.add(position - value);
+                    }
+                    wordCount.put(key, newValues);
                 }
-                wordCount.put(key, newValues);
+                lineNumber++;
             }
 
         } catch (FileNotFoundException e) {
@@ -36,8 +40,8 @@ public class WsppSortedPosition {
             sortMap.putIfAbsent(sort, wordCount.get(sort));
         }
 
-        int strPosition = 1;
-        String filenameWrite = args[1];
+
+        String filenameWrite = "output.txt";
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filenameWrite, StandardCharsets.UTF_8))) {
             for (Map.Entry<String, List<Integer>> entry : sortMap.entrySet()) {
@@ -52,11 +56,10 @@ public class WsppSortedPosition {
                 }
                 writer.write(wordText + " " + sortMap.get(wordText).size());
                 for (Integer position : positions) {
-                    writer.write(" " + strPosition + ":" + position);
+                    writer.write(":" + position);
                 }
 
                 writer.newLine();
-                strPosition++;
             }
 
         } catch (FileNotFoundException e) {
@@ -65,6 +68,16 @@ public class WsppSortedPosition {
             System.out.println("Something wrong with output file: " + e.getMessage());
         }
     }
+
+
 }
 
+class Pair {
+    int lineNumber;
+    int positionInLine;
 
+    public Pair(int lineNumber, int positionInLine) {
+        this.lineNumber = lineNumber;
+        this.positionInLine = positionInLine;
+    }
+}
