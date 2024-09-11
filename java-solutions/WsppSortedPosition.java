@@ -4,9 +4,13 @@ import java.util.*;
 
 public class WsppSortedPosition {
     public static void main(String[] args) {
-        // TODO :NOTE: проверить корректность аргументов и если пользователь ошибся, вывести вменяему ошибку
+        // проверить корректность аргументов и если пользователь ошибся, вывести вменяему ошибку
+        if (args.length > 2 || args[0] == null) {
+            String filenameRead = args[0];
+            return;
+        }
         String filenameRead = args[0];
-        HashMap<String, List<Pair>> wordCount = new HashMap<>(); // TODO :NOTE: другое название переменной
+        HashMap<String, List<CoordinationsWord>> wordsInLine = new HashMap<>(); // другое название переменной
         int lineNumber = 1;
         try (FastScanner scanner = new FastScanner(new BufferedReader(new FileReader(filenameRead, StandardCharsets.UTF_8)))) {
             while (scanner.hasNextLine()) {
@@ -17,52 +21,55 @@ public class WsppSortedPosition {
                     }
                 }
 
-                int positionCount = words.size(); // TODO :NOTE: другое название переменной
-                for (int i = 0; i < positionCount; i++) {
+                int sizeLine = words.size(); // другое название переменной
+                for (int i = 0; i < sizeLine; i++) {
                     String word = words.get(i);
 
-                    List<Pair> pairs = wordCount.get(word);
+                    List<CoordinationsWord> coordinationsWords = wordsInLine.get(word);
                     // TODO :NOTE: использовать computeIfAbsent
-                    if (pairs == null) {
-                        pairs = new ArrayList<>();
-                        wordCount.put(word, pairs);
+                    if (coordinationsWords == null) {
+                        coordinationsWords = new ArrayList<>();
+                        wordsInLine.put(word, coordinationsWords);
                     }
 
-                    pairs.add(new Pair(lineNumber, positionCount - i));
+                    coordinationsWords.add(new CoordinationsWord(lineNumber, sizeLine - i));
                 }
 
                 lineNumber++;
             }
         } catch (FileNotFoundException e) {
             System.out.println("Input file not found: " + e.getMessage());
-            // TODO :NOTE: return
+            return;
         } catch (IOException e) {
             System.out.println("Something wrong with input file: " + e.getMessage());
-            // TODO :NOTE: return
+            return;
         }
 
-        List<String> sortedWords = new ArrayList<>(wordCount.keySet());
+        List<String> sortedWords = new ArrayList<>(wordsInLine.keySet());
         Collections.sort(sortedWords);
-        LinkedHashMap<String, List<Pair>> sortMap = new LinkedHashMap<>();
+        LinkedHashMap<String, List<CoordinationsWord>> sortMap = new LinkedHashMap<>();
         for (String word : sortedWords) {
-            sortMap.put(word, wordCount.get(word));
+            sortMap.put(word, wordsInLine.get(word));
         }
 
         String filenameWrite = args[1];
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filenameWrite, StandardCharsets.UTF_8))) {
-            for (Map.Entry<String, List<Pair>> entry : sortMap.entrySet()) {
+            for (Map.Entry<String, List<CoordinationsWord>> entry : sortMap.entrySet()) {
                 String word = entry.getKey();
-                List<Pair> positions = entry.getValue();
+                List<CoordinationsWord> positions = entry.getValue();
 
                 writer.write(word);
                 writer.write(" ");
                 writer.write(Integer.toString(sortMap.get(word).size()));
 
-                for (Pair position : positions) {
-                    // TODO :NOTE: избавиться от конкатенации строк
-                    // TODO :NOTE: lineNumer и positionInLine получать через геттеры
-                    writer.write(" " + position.lineNumber + ":" + position.positionInLine);
+                for (CoordinationsWord position : positions) {
+                    // избавиться от конкатенации строк
+                    // lineNumer и positionInLine получать через геттеры
+                    writer.write(" ");
+                    writer.write(Integer.toString(position.getLineNumber()));
+                    writer.write(":");
+                    writer.write(Integer.toString(position.getPositionInLine()));
                 }
 
                 writer.newLine();
@@ -73,18 +80,5 @@ public class WsppSortedPosition {
         } catch (IOException e) {
             System.out.println("Something wrong with output file: " + e.getMessage());
         }
-    }
-
-}
-
-// TODO :NOTE: переместить его как внутренний класс или как внешний
-// TODO :NOTE: другое название класса
-class Pair {
-    int lineNumber;
-    int positionInLine;
-
-    public Pair(int lineNumber, int positionInLine) {
-        this.lineNumber = lineNumber;
-        this.positionInLine = positionInLine;
     }
 }
