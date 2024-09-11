@@ -4,8 +4,9 @@ import java.util.*;
 
 public class WsppSortedPosition {
     public static void main(String[] args) {
-        // проверить корректность аргументов и если пользователь ошибся, вывести вменяему ошибку
+        // TODO проверить корректность аргументов и если пользователь ошибся, вывести вменяему ошибку
         if (args.length > 2 || args[0] == null) {
+            // TODO :NOTE: сообщение об ошибке
             String filenameRead = args[0];
             return;
         }
@@ -21,7 +22,7 @@ public class WsppSortedPosition {
                     }
                 }
 
-                int sizeLine = words.size(); // другое название переменной
+                int sizeLine = words.size(); // TODO другое название переменной
                 for (int i = 0; i < sizeLine; i++) {
                     String word = words.get(i);
 
