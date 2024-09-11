@@ -4,8 +4,9 @@ import java.util.*;
 
 public class WsppSortedPosition {
     public static void main(String[] args) {
+        // TODO :NOTE: проверить корректность аргументов и если пользователь ошибся, вывести вменяему ошибку
         String filenameRead = args[0];
-        LinkedHashMap<String, List<Pair>> wordCount = new LinkedHashMap<>();
+        HashMap<String, List<Pair>> wordCount = new HashMap<>(); // TODO :NOTE: другое название переменной
         int lineNumber = 1;
         try (FastScanner scanner = new FastScanner(new BufferedReader(new FileReader(filenameRead, StandardCharsets.UTF_8)))) {
             while (scanner.hasNextLine()) {
@@ -16,44 +17,51 @@ public class WsppSortedPosition {
                     }
                 }
 
-                int positionCount = words.size();
+                int positionCount = words.size(); // TODO :NOTE: другое название переменной
                 for (int i = 0; i < positionCount; i++) {
                     String word = words.get(i);
-                    wordCount.putIfAbsent(word, new ArrayList<>());
-                    wordCount.get(word).add(new Pair(lineNumber, positionCount - i));
+
+                    List<Pair> pairs = wordCount.get(word);
+                    // TODO :NOTE: использовать computeIfAbsent
+                    if (pairs == null) {
+                        pairs = new ArrayList<>();
+                        wordCount.put(word, pairs);
+                    }
+
+                    pairs.add(new Pair(lineNumber, positionCount - i));
                 }
 
                 lineNumber++;
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("Input file not found: " + e.getMessage());
+            // TODO :NOTE: return
         } catch (IOException e) {
             System.out.println("Something wrong with input file: " + e.getMessage());
+            // TODO :NOTE: return
         }
+
         List<String> sortedWords = new ArrayList<>(wordCount.keySet());
         Collections.sort(sortedWords);
         LinkedHashMap<String, List<Pair>> sortMap = new LinkedHashMap<>();
-        for (String sort : sortedWords) {
-            sortMap.putIfAbsent(sort, wordCount.get(sort));
+        for (String word : sortedWords) {
+            sortMap.put(word, wordCount.get(word));
         }
-
 
         String filenameWrite = args[1];
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filenameWrite, StandardCharsets.UTF_8))) {
             for (Map.Entry<String, List<Pair>> entry : sortMap.entrySet()) {
-                String wordText = entry.getKey();
+                String word = entry.getKey();
                 List<Pair> positions = entry.getValue();
-                StringBuilder positionsBuilder = new StringBuilder();
-                for (int i = 0; i < positions.size(); i++) {
-                    if (i > 0) {
-                        positionsBuilder.append(" ");
-                    }
-                    positionsBuilder.append(positions.get(i));
-                }
-                writer.write(wordText + " " + sortMap.get(wordText).size());
+
+                writer.write(word);
+                writer.write(" ");
+                writer.write(Integer.toString(sortMap.get(word).size()));
+
                 for (Pair position : positions) {
+                    // TODO :NOTE: избавиться от конкатенации строк
+                    // TODO :NOTE: lineNumer и positionInLine получать через геттеры
                     writer.write(" " + position.lineNumber + ":" + position.positionInLine);
                 }
 
@@ -69,6 +77,8 @@ public class WsppSortedPosition {
 
 }
 
+// TODO :NOTE: переместить его как внутренний класс или как внешний
+// TODO :NOTE: другое название класса
 class Pair {
     int lineNumber;
     int positionInLine;
