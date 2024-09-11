@@ -4,10 +4,9 @@ import java.util.*;
 
 public class WsppSortedPosition {
     public static void main(String[] args) {
-        // TODO проверить корректность аргументов и если пользователь ошибся, вывести вменяему ошибку
-        if (args.length > 2 || args[0] == null) {
-            // TODO :NOTE: сообщение об ошибке
-            String filenameRead = args[0];
+        // проверить корректность аргументов и если пользователь ошибся, вывести вменяему ошибку
+        if (args == null || args.length != 2 || args[0] == null || args[0].isEmpty() || args[1] == null || args[1].isEmpty()) {
+            System.err.println("Incorrect arguments. Usage: java <input_file> <output_file>");
             return;
         }
         String filenameRead = args[0];
@@ -22,18 +21,14 @@ public class WsppSortedPosition {
                     }
                 }
 
-                int sizeLine = words.size(); // TODO другое название переменной
-                for (int i = 0; i < sizeLine; i++) {
+                int countWords = words.size(); // другое название переменной
+                for (int i = 0; i < countWords; i++) {
                     String word = words.get(i);
 
-                    List<CoordinationsWord> coordinationsWords = wordsInLine.get(word);
-                    // TODO :NOTE: использовать computeIfAbsent
-                    if (coordinationsWords == null) {
-                        coordinationsWords = new ArrayList<>();
-                        wordsInLine.put(word, coordinationsWords);
-                    }
+                    // использовать computeIfAbsent
+                    List<CoordinationsWord> coordinationsWords = wordsInLine.computeIfAbsent(word, k -> new ArrayList<>());
 
-                    coordinationsWords.add(new CoordinationsWord(lineNumber, sizeLine - i));
+                    coordinationsWords.add(new CoordinationsWord(lineNumber, countWords - i));
                 }
 
                 lineNumber++;
