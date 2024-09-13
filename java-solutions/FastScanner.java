@@ -4,14 +4,13 @@ import java.util.function.Predicate;
 public class FastScanner implements AutoCloseable {
     private final Reader reader;
     private int lastChar = -1;
-    private StringBuilder builder = new StringBuilder();
+    private final StringBuilder builder = new StringBuilder();
 
     public FastScanner(Reader reader) {
         this.reader = reader;
     }
 
     public FastScanner(InputStream in) {
-        // :NOTE: не надо оборачивать в BufferedReader
         this(new InputStreamReader(in));
     }
 
@@ -42,11 +41,9 @@ public class FastScanner implements AutoCloseable {
     }
 
     private String next(Predicate<Character> predicate) throws IOException {
-        // TODO :NOTE: StringBuilder унести в поле класса и переиспользовать его
-        // TODO :NOTE: str.setLength(0); сбрасывает внутренние указатели стринг билдера (переиспользование памяти)
-        StringBuilder str = new StringBuilder();
+        builder.setLength(0);
         if (lastChar != -1) {
-            str.append((char) lastChar);
+            builder.append((char) lastChar);
             lastChar = -1;
         }
 
@@ -56,12 +53,12 @@ public class FastScanner implements AutoCloseable {
                 break;
             }
             if (predicate.test((char) number)) {
-                str.append((char) number);
+                builder.append((char) number);
             } else {
                 break;
             }
         }
-        return str.toString();
+        return builder.toString();
     }
 
     public boolean hasNextLine() throws IOException {
