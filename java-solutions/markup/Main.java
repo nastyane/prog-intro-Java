@@ -4,6 +4,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        Text md = new Text("example");
+        StringBuilder sb = new StringBuilder();
+        md.toMarkdown(sb);
+        System.out.println(sb);
 //        Paragraph paragraph = new Paragraph(List.of(
 //                new Strong(List.of(
 //                        new Text("1"),
