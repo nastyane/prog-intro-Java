@@ -11,5 +11,4 @@ public class Text implements MarkupToMarkdown {
     public void toMarkdown(StringBuilder res) {
         res.append(text);
     }
-
 }

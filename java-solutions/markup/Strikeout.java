@@ -2,20 +2,8 @@ package markup;
 
 import java.util.List;
 
-public class Strikeout implements MarkupToMarkdown {
-    private final List<MarkupToMarkdown> markup;
-
+public class Strikeout extends AbstractMarkup {
     public Strikeout(List<MarkupToMarkdown> markup) {
-        this.markup = markup;
+        super(markup, "~");
     }
-
-    @Override
-    public void toMarkdown(StringBuilder res) {
-        res.append("~");
-        for (MarkupToMarkdown markup : markup) {
-            markup.toMarkdown(res);
-        }
-        res.append("~");
-    }
-
 }

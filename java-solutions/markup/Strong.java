@@ -2,20 +2,8 @@ package markup;
 
 import java.util.List;
 
-public class Strong implements MarkupToMarkdown {
-    private final List<MarkupToMarkdown> markup;
-
+public class Strong extends AbstractMarkup {
     public Strong(List<MarkupToMarkdown> markup) {
-        this.markup = markup;
+        super(markup, "__");
     }
-
-    @Override
-    public void toMarkdown(StringBuilder res) {
-        res.append("__");
-        for (MarkupToMarkdown markup : markup) {
-            markup.toMarkdown(res);
-        }
-        res.append("__");
-    }
-
 }
