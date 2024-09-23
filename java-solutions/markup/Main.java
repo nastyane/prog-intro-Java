@@ -9,19 +9,29 @@ public class Main {
         md.toMarkdown(sb);
         System.out.println(sb);
 
-        MarkupToMarkdown md2 = new Emphasis(new Text("good"));
+        MarkupToMarkdown md2 = new Emphasis(List.of(
+                new Text("good"),
+                new Text("bad"),
+                new Emphasis(List.of(new Text("hello")))
+        ));
         sb = new StringBuilder();
 
         md2.toMarkdown(sb);
         System.out.println(sb);
 
-        MarkupToMarkdown md3 = new Emphasis(new Text("nice"));
-        sb = new StringBuilder();
+        MarkupToMarkdown md3 = new Strong(List.of(
+                new Text("good"),
+                new Text("bad"),
+                new Strong(List.of(new Text("hello")))
+        ));
         md3.toMarkdown(sb);
         System.out.println(sb);
 
-        Strikeout md4 = new Strikeout(new Text("wow"));
-        sb = new StringBuilder();
+        MarkupToMarkdown md4 = new Strikeout(List.of(
+                new Text("good"),
+                new Text("bad"),
+                new Emphasis(List.of(new Text("hello")))
+        ));
         md4.toMarkdown(sb);
         System.out.println(sb);
 //        Paragraph paragraph = new Paragraph(List.of(
