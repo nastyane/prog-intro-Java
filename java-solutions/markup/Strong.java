@@ -1,6 +1,6 @@
 package markup;
 
-public class Strong {
+public class Strong implements MarkupToMarkdown {
     private final Text text;
 
     public Strong(Text example) {
@@ -8,6 +8,7 @@ public class Strong {
 
     }
 
+    @Override
     public void toMarkdown(StringBuilder res) {
         res.append("__");
         text.toMarkdown(res);

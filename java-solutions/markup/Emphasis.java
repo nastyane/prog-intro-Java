@@ -1,6 +1,6 @@
 package markup;
 
-public class Emphasis {
+public class Emphasis implements MarkupToMarkdown {
     private final Text text;
 
     public Emphasis(Text example) {
@@ -8,10 +8,10 @@ public class Emphasis {
 
     }
 
+    @Override
     public void toMarkdown(StringBuilder res) {
         res.append("*");
         text.toMarkdown(res);
         res.append("*");
     }
-
 }
