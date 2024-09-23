@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        MarkupToMarkdown md = new Text("example");
+        Markup md = new Text("example");
         StringBuilder sb = new StringBuilder();
         md.toMarkdown(sb);
         System.out.println(sb);
 
-        MarkupToMarkdown md2 = new Emphasis(List.of(
+        Markup md2 = new Emphasis(List.of(
                 new Text("good"),
                 new Text("bad"),
                 new Emphasis(List.of(new Text("hello")))
@@ -19,7 +19,7 @@ public class Main {
         md2.toMarkdown(sb);
         System.out.println(sb);
 
-        MarkupToMarkdown md3 = new Strong(List.of(
+        Markup md3 = new Strong(List.of(
                 new Text("good"),
                 new Text("bad"),
                 new Strong(List.of(new Text("hello")))
@@ -27,7 +27,7 @@ public class Main {
         md3.toMarkdown(sb);
         System.out.println(sb);
 
-        MarkupToMarkdown md4 = new Strikeout(List.of(
+        Markup md4 = new Strikeout(List.of(
                 new Text("good"),
                 new Text("bad"),
                 new Emphasis(List.of(new Text("hello")))
@@ -51,12 +51,12 @@ public class Main {
 
         StringBuilder strb = new StringBuilder();
         paragraph.toMarkdown(strb);
-//        strb.setLength(0);
-//        new Paragraph(List.of(
-//                new Paragraph(List.of(
-//                        new Text("text")
-//                ))
-//        )).toMarkdown(strb);
+        strb.setLength(0);
+        new Paragraph(List.of(
+                new Paragraph(List.of(
+                        new Text("text")
+                ))
+        )).toMarkdown(strb);
         System.out.println(strb.toString());
     }
 }

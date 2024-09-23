@@ -2,11 +2,11 @@ package markup;
 
 import java.util.List;
 
-public abstract class AbstractMarkup implements MarkupToMarkdown {
-    private final List<MarkupToMarkdown> markup;
+public abstract class AbstractMarkup implements Markup {
+    private final List<Markup> markup;
     private final String symbol;
 
-    public AbstractMarkup(List<MarkupToMarkdown> markup, String symbol) {
+    public AbstractMarkup(List<Markup> markup, String symbol) {
         this.markup = markup;
         this.symbol = symbol;
     }
@@ -14,7 +14,7 @@ public abstract class AbstractMarkup implements MarkupToMarkdown {
     @Override
     public void toMarkdown(StringBuilder res) {
         res.append(symbol);
-        for (MarkupToMarkdown markup : markup) {
+        for (Markup markup : markup) {
             markup.toMarkdown(res);
         }
 

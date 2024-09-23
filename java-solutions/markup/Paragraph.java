@@ -2,16 +2,16 @@ package markup;
 
 import java.util.List;
 
-public class Paragraph implements MarkupToMarkdown {
-    private final List<MarkupToMarkdown> markups;
+public class Paragraph implements Markup {
+    private final List<Markup> markups;
 
-    public Paragraph(List<MarkupToMarkdown> markups) {
+    public Paragraph(List<Markup> markups) {
         this.markups = markups;
     }
 
     @Override
     public void toMarkdown(StringBuilder output) {
-        for (MarkupToMarkdown markup : markups) {
+        for (Markup markup : markups) {
             markup.toMarkdown(output);
         }
     }
