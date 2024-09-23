@@ -11,4 +11,9 @@ public class Text implements WrapableMarkup {
     public void toMarkdown(StringBuilder res) {
         res.append(text);
     }
+
+    @Override
+    public void toBBCode(StringBuilder res) {
+        res.append(text);
+    }
 }

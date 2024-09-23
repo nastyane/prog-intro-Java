@@ -15,4 +15,11 @@ public class Paragraph implements Markup {
             markup.toMarkdown(output);
         }
     }
+
+    @Override
+    public void toBBCode(StringBuilder output) {
+        for (Markup markup : markups) {
+            markup.toBBCode(output);
+        }
+    }
 }

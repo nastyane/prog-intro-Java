@@ -49,9 +49,12 @@ public class Main {
                 ))
         ));
 
+        System.out.println();
         StringBuilder strb = new StringBuilder();
         paragraph.toMarkdown(strb);
+        System.out.println(strb.toString());
         strb.setLength(0);
+        paragraph.toBBCode(strb);
         System.out.println(strb.toString());
     }
 }
