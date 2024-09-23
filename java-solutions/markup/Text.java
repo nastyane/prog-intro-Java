@@ -1,6 +1,6 @@
 package markup;
 
-public class Text implements Markup {
+public class Text implements WrapableMarkup {
     private final String text;
 
     public Text(String example) {

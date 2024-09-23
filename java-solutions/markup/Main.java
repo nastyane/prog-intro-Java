@@ -52,11 +52,6 @@ public class Main {
         StringBuilder strb = new StringBuilder();
         paragraph.toMarkdown(strb);
         strb.setLength(0);
-        new Paragraph(List.of(
-                new Paragraph(List.of(
-                        new Text("text")
-                ))
-        )).toMarkdown(strb);
         System.out.println(strb.toString());
     }
 }

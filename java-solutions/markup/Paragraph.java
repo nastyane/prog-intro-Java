@@ -3,9 +3,9 @@ package markup;
 import java.util.List;
 
 public class Paragraph implements Markup {
-    private final List<Markup> markups;
+    private final List<WrapableMarkup> markups;
 
-    public Paragraph(List<Markup> markups) {
+    public Paragraph(List<WrapableMarkup> markups) {
         this.markups = markups;
     }
 
