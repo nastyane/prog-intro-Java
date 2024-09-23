@@ -1,17 +1,16 @@
 package markup;
 
 public class Strong implements MarkupToMarkdown {
-    private final Text text;
+    private final MarkupToMarkdown markup;
 
-    public Strong(Text example) {
-        text = example;
-
+    public Strong(MarkupToMarkdown markup) {
+        this.markup = markup;
     }
 
     @Override
     public void toMarkdown(StringBuilder res) {
         res.append("__");
-        text.toMarkdown(res);
+        markup.toMarkdown(res);
         res.append("__");
     }
 

@@ -1,17 +1,16 @@
 package markup;
 
 public class Strikeout implements MarkupToMarkdown {
-    private final Text text;
+    private final MarkupToMarkdown markup;
 
-    public Strikeout(Text example) {
-        text = example;
-
+    public Strikeout(MarkupToMarkdown markup) {
+        this.markup = markup;
     }
 
     @Override
     public void toMarkdown(StringBuilder res) {
         res.append("~");
-        text.toMarkdown(res);
+        markup.toMarkdown(res);
         res.append("~");
     }
 
